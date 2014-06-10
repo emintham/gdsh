@@ -3,6 +3,7 @@ A Google Drive shell in Ruby.
 
 ## Usage
 (adapted from https://developers.google.com/drive/web/quickstart/quickstart-ruby)
+
 1. Set up a project in [Google](https://console.developers.google.com//start/api?id=drive&credential=client_key).
 2. Select the created project and select APIs & auth and make sure the status
    is **ON** for the Drive API.
