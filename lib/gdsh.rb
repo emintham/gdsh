@@ -10,6 +10,9 @@ require_relative 'gdsh/command'
 # Implements a command interpreter to wrap Google Drive API.
 #
 module Gdsh
+  ##
+  # Gdsh Class
+  #
   class Gdsh < DriveService
     include CommandFactory
 
@@ -24,7 +27,7 @@ module Gdsh
     end
 
     def clear_screen
-      system 'clear' or system 'cls'
+      system('clear') || system('cls')
     end
 
     def init_shell
@@ -39,7 +42,7 @@ module Gdsh
     #
     def shell
       init_shell
-      
+
       loop do
         print '> '
         command = next_command(@client)

@@ -12,17 +12,17 @@ module CommandFactory
 
     Commands
     --------
-    quit: 
+    quit:
       Exits the shell.
-    help: 
+    help:
       Prints this help.
-    ls: 
+    ls:
       List files accessible by this application.
-    upload_template: 
+    upload_template:
       Writes a test file to Drive.
-    query(<file_id>): 
+    query(<file_id>):
       Queries all revisions for <file_id>.
-    get(<file_id>[,<revision_number]): 
+    get(<file_id>[,<revision_number]):
       Downloads a specific revision of a file if <revision_number> is
       specified; downloads all revisions otherwise.
 
@@ -96,6 +96,9 @@ class Command
   end
 end
 
+##
+# Help command
+#
 class Help < Command
   include CommandFactory
 
@@ -314,9 +317,12 @@ class QueryRevision < Command
   end
 end
 
+##
+# Downloads Files/Revisions
+#
 class GetFile < QueryRevision
   def name
-    'get(<file_id>[,<revision_number>]'
+    'get(<file_id>[,<revision_number>])'
   end
 
   def function
