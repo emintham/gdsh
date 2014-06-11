@@ -383,7 +383,7 @@ class GetFile < QueryRevision
   end
 
   def generate_filename_from_revision(revision)
-    @params[1] + '_rev_' + revision
+    @params[1] + '_rev_' + revision + '.txt'
   end
 
   def execute
