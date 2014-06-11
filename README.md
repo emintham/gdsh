@@ -1,7 +1,22 @@
 # gdsh
 A Google Drive shell in Ruby.
 
+## Installation
+
+Add this line to your application's Gemfile:
+
+	gem 'gdsh'
+
+And then execute:
+
+	$ bundle
+
+Or install it yourself as:
+
+	$ gem install gdsh
+
 ## Usage
+
 (adapted from https://developers.google.com/drive/web/quickstart/quickstart-ruby)
 
 1. Set up a project in [Google](https://console.developers.google.com//start/api?id=drive&credential=client_key).

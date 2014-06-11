@@ -1,7 +1,6 @@
 require 'google/api_client'
 require 'json'
 
-require_relative 'download'
 require_relative 'mime'
 
 ##
