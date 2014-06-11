@@ -16,6 +16,8 @@ module CommandFactory
       Exits the shell.
     help:
       Prints this help.
+    clear:
+      Clears the screen.
     ls:
       List files accessible by this application.
     upload_template:
@@ -45,6 +47,8 @@ module CommandFactory
       Quit.new
     when 'help'
       Help.new
+    when 'clear'
+      Clear.new
     when 'ls'
       ListFiles.new(client, params)
     when 'upload_template'
@@ -147,6 +151,26 @@ class Quit < Command
   end
 
   def execute
+  end
+end
+
+##
+# Clear screen.
+#
+class Clear < Command
+  def initialize
+  end
+
+  def name
+    'clear'
+  end
+
+  def function
+    'Clears the screen.'
+  end
+
+  def execute
+    system('clear') || system('cls')
   end
 end
 
