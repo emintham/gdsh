@@ -145,6 +145,9 @@ class Quit < Command
   def terminal?
     true
   end
+
+  def execute
+  end
 end
 
 ##
@@ -216,6 +219,8 @@ end
 # Uploads a template to the Drive.
 #
 class UploadTemplate < Command
+  include Mime
+
   def name
     'upload_template'
   end
@@ -228,20 +233,19 @@ class UploadTemplate < Command
   # Writes a template file to drive.
   #
   def execute
-    return unless @client
+    return unless @client && File.exist?('../document.txt')
 
-    client = @client
-    drive = client.discovered_api('drive', 'v2')
+    drive = @client.discovered_api('drive', 'v2')
 
     puts 'Writing template to drive.'
     # Insert a file
     file = drive.files.insert.request_schema.new(
       title: 'My document',
       description: 'A test document',
-      mimeType: 'text/plain')
+      mimeType: txt)
 
-    media = Google::APIClient::UploadIO.new('document.txt', 'text/plain')
-    client.execute(
+    media = Google::APIClient::UploadIO.new('../document.txt', txt)
+    @client.execute(
       api_method: drive.files.insert,
       body_object: file,
       media: media,
@@ -273,14 +277,12 @@ class QueryRevision < Command
   end
 
   def revisions
-    client = @client
-    drive = client.discovered_api('drive', 'v2')
-    api_result = client.execute(
+    drive = @client.discovered_api('drive', 'v2')
+    api_result = @client.execute(
       api_method: drive.revisions.list,
       parameters: { 'fileId' => @file_id })
     if api_result.status == 200
-      revisions = api_result.data
-      revisions.items
+      api_result.data.items
     else
       puts "An error occurred: #{result.data['error']['message']}"
     end
@@ -335,20 +337,36 @@ class GetFile < QueryRevision
     @revision = (params.length == 3) ? params[2] : nil
   end
 
-  def filename(rev)
-    @file_id.to_s + '_rev_' + rev.to_s
+  def download(url)
+    return unless @client
+
+    puts "Downloading #{url} ..."
+    result = @client.execute(uri: url)
+    if result.status == 200
+      result.body
+    else
+      puts "An error occurred: #{result.data['error']['message']}"
+    end
   end
 
-  def download(filename)
+  def download_revision_as_txt(rev)
+    download(txt_link(rev))
+  end
+
+  def write_to_file(revision)
+    filename = generate_filename_from_revision(revision)
+    File.write(filename, download_revision_as_txt(revision))
+  end
+
+  def generate_filename_from_revision(revision)
+    @params[1] + '_rev_' + revision
   end
 
   def execute
     if @revision.nil?
-      revisions.each do |r|
-        download(filename(r['id']), txt_link(r['id']))
-      end
+      revisions.each { |r| write_to_file(r['id']) }
     else
-      download(filename(@revision), txt_link(@revision))
+      write_to_file(@revision)
     end
   end
 end

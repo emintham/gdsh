@@ -52,10 +52,3 @@ module Gdsh
     end
   end
 end
-
-# if run as standalone script, launch shell
-if __FILE__ == $PROGRAM_NAME
-  filename = ARGV.first if ARGV.length > 0
-  s = Gdsh::Gdsh.new(filename)
-  s.shell
-end

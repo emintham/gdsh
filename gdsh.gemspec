@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Gdsh::VERSION
   spec.authors       = ['Emin Tham']
   spec.email         = ['emintham@gmail.com']
-  spec.summary       = %q{A Google Drive shell in Ruby.}
+  spec.summary       = 'A Google Drive shell in Ruby.'
   spec.description   = ''
   spec.homepage      = 'https://github.com/emintham/gdsh'
   spec.license       = 'MIT'
