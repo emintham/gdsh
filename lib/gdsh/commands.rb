@@ -20,11 +20,21 @@ module Commands
       base.extend(ClassMethods)
     end
 
+    ##
+    # Every 'useful' Command class should override the following
+    # (except terminal?)
+    #
     module ClassMethods
       def command_name
+        ''
       end
 
       def function
+        ''
+      end
+
+      def parameters
+        ''
       end
 
       def description
@@ -61,9 +71,6 @@ module Commands
   # Help command
   #
   class Help < Command
-    def initialize(client, params)
-    end
-
     def self.command_name
       'help'
     end
@@ -73,7 +80,7 @@ module Commands
     end
 
     def execute
-      puts Commands.usage
+      Commands.usage
     end
   end
 
@@ -81,9 +88,6 @@ module Commands
   # Quit command.
   #
   class Quit < Command
-    def initialize(client, params)
-    end
-
     def self.command_name
       'quit'
     end
@@ -92,7 +96,7 @@ module Commands
       'Exit the application.'
     end
 
-    def terminal?
+    def self.terminal?
       true
     end
 
@@ -104,9 +108,6 @@ module Commands
   # Clear screen.
   #
   class Clear < Command
-    def initialize(client, params)
-    end
-
     def self.command_name
       'clear'
     end
@@ -384,16 +385,17 @@ module Commands
     puts 'Commands'
     puts '--------'
     commands.each do |c|
-      puts const_get(c).description
+      puts const_get(c).description unless const_get(c).command_name.empty?
     end
   end
 
   def interpret(input)
+    return Quit if input.nil?
+
     commands.each do |c|
       return const_get(c) if input == const_get(c).command_name
     end
 
-    return Quit if input == '' || input.nil?
-    return Unrecognized
+    Unrecognized
   end
 end

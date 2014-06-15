@@ -45,8 +45,9 @@ module Gdsh
 
       loop do
         print '> '
-        command = next_command
-        command.execute
+        params = parsed_inputs
+        command = next_command(params)
+        command.new(@client, params).execute
         break if command.terminal?
       end
     end

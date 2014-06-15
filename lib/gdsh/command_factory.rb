@@ -14,8 +14,7 @@ module CommandFactory
     user_input.chomp.split(/[\(,\),\,]/)
   end
 
-  def next_command
-    params = parsed_inputs
-    Commands.interpret(params[0]).new(@client, params)
+  def next_command(params)
+    Commands.interpret(params[0])
   end
 end
