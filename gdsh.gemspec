@@ -20,7 +20,8 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler', '~> 1.5'
   spec.add_development_dependency 'rake'
-  spec.add_dependency 'google-api-client'
-  spec.add_dependency 'launchy'
-  spec.add_dependency 'diff-lcs'
+  spec.add_development_dependency 'rspec'
+  spec.add_runtime_dependency 'google-api-client'
+  spec.add_runtime_dependency 'launchy'
+  spec.add_runtime_dependency 'differ'
 end

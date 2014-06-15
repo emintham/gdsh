@@ -1,4 +1,5 @@
-# gdsh
+# gdsh [![Code Climate](https://codeclimate.com/github/emintham/gdsh.png)](https://codeclimate.com/github/emintham/gdsh)
+
 A Google Drive shell in Ruby.
 
 ## Installation

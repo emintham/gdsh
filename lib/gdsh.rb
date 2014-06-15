@@ -4,7 +4,7 @@ require 'json'
 
 require_relative 'gdsh/version'
 require_relative 'gdsh/drive'
-require_relative 'gdsh/command'
+require_relative 'gdsh/command_factory'
 
 ##
 # Implements a command interpreter to wrap Google Drive API.
@@ -45,7 +45,7 @@ module Gdsh
 
       loop do
         print '> '
-        command = next_command(@client)
+        command = next_command
         command.execute
         break if command.terminal?
       end
