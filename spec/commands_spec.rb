@@ -1,4 +1,3 @@
-require_relative 'spec_helper'
 require_relative '../lib/gdsh/commands'
 
 describe Commands, '#interpret' do
@@ -9,7 +8,7 @@ describe Commands, '#interpret' do
   it 'creates a Quit Command object' do
     expect(Commands.interpret('quit')).to eq(Commands::Quit)
   end
-    
+
   it 'creates a Help Command object' do
     expect(Commands.interpret('help')).to eq(Commands::Help)
   end
