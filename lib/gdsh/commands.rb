@@ -1,6 +1,6 @@
 require 'google/api_client'
 require 'json'
-require 'differ/diff'
+require 'differ'
 
 require_relative 'mime'
 
@@ -275,6 +275,7 @@ module Commands
         puts "Modifying User: #{r['lastModifyingUserName']}"
         puts "Download pdf: #{r['exportLinks'][pdf]}"
         puts "Download docx: #{r['exportLinks'][docx]}"
+        puts "Download txt: #{r['exportLinks'][txt]}"
         puts ''
       end
     end
@@ -286,7 +287,11 @@ module Commands
     end
 
     def modifying_users
-      revisions.map { |r| [r['lastModifyingUserName'], r['id']] }
+      modifying_hash = {}
+      revisions.each do |r|
+        modifying_hash[r['id']] = r['lastModifyingUserName']
+      end
+      modifying_hash
     end
   end
 
@@ -368,10 +373,45 @@ module Commands
       @low_rev = (params.length == 4) ? params[2].to_i : nil
       @high_rev = (params.length == 4) ? params[3].to_i : nil
       @modifying_users = modifying_users
-      @all = false
+      @all = @low_rev.nil? && @high_rev.nil?
 
-      return unless @high_rev < @low_rev
+      return if @all || @high_rev > @low_rev
       @low_rev, @high_rev = @high_rev, @low_rev
+    end
+
+    def consecutive_revisions
+      return unless @all
+      keys = modifying_users.keys.map { |x| x.to_i }.sort
+      len = keys.length
+      keys.first(len - 1).zip(keys.last(len - 1))
+    end
+
+    def compare_two_revs(low, high)
+      first = download_revision_as_txt(low)
+      second = download_revision_as_txt(high)
+      Differ.diff_by_word(first, second)
+    end
+
+    def print_summary_of_changes(changes)
+      puts "#{changes.change_count} words changed, #{changes.insert_count} inserts, #{changes.delete_count} deletes."
+    end
+
+    def compare_and_print_change_count(low, high)
+      changes = compare_two_revs(low, high)
+      print_summary_of_changes(changes)
+    end
+
+    def execute
+      puts "Note: 'ab' -> 'ac' counts as both an insert and a delete but counts as only one change."
+      if @all
+        users = modifying_users
+        consecutive_revisions.each do |pair|
+          puts "From rev #{pair[0]} to rev# {pair[1]} modified by #{users[pair[0].to_s]}"
+          compare_and_print_change_count(pair[0].to_s, pair[1].to_s)
+        end
+      else
+        compare_and_print_change_count(@low_rev, @high_rev)
+      end
     end
   end
 
