@@ -24,4 +24,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'google-api-client'
   spec.add_runtime_dependency 'launchy'
   spec.add_runtime_dependency 'differ'
+  spec.add_runtime_dependency 'colorize'
 end
