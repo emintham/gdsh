@@ -66,13 +66,17 @@ module Commands
       "Download txt: ".colorize(:magenta)
     end
 
+    def puts_download_links(revision)
+      puts pdf_link_label + "#{revision['exportLinks'][pdf]}"
+      puts docx_link_label + "#{revision['exportLinks'][docx]}"
+      puts txt_link_label + "#{revision['exportLinks'][txt]}"
+    end
+
     def puts_revision_info(revision)
       puts revision_id_label + "#{revision['id']}"
       puts modified_date_label + "#{revision['modifiedDate']}"
       puts modifying_user_label + "#{revision['lastModifyingUserName']}"
-      puts pdf_link_label + "#{revision['exportLinks'][pdf]}"
-      puts docx_link_label + "#{revision['exportLinks'][docx]}"
-      puts txt_link_label + "#{revision['exportLinks'][txt]}"
+      puts_download_links
       puts ''
     end
 
