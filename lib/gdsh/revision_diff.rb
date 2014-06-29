@@ -23,18 +23,24 @@ module Commands
 
     def initialize(client, params)
       super(client, params)
-      @low_rev = (params.length == 4) ? params[2].to_i : nil
-      @high_rev = (params.length == 4) ? params[3].to_i : nil
-      @modifying_users = modifying_users
-      @all = @low_rev.nil? && @high_rev.nil?
+      init_revisions
+    end
 
-      return if @all || @high_rev > @low_rev
+    def init_revisions
+      @low_rev = (@params.length == 4) ? @params[2] : nil
+      @high_rev = (@params.length == 4) ? @params[3] : nil
+      @all = @low_rev.nil? && @high_rev.nil?
+      return if @all || order_is_correct
       @low_rev, @high_rev = @high_rev, @low_rev
+    end
+
+    def order_is_correct
+      @high_rev.to_i > @low_rev.to_i
     end
 
     def consecutive_revisions
       return unless @all
-      keys = modifying_users.keys.map { |x| x.to_i }.sort
+      keys = modifying_users.keys.sort_by { |x| x.to_i }
       len = keys.length
       keys.first(len - 1).zip(keys.last(len - 1))
     end
@@ -46,7 +52,8 @@ module Commands
     end
 
     def print_summary_of_changes(changes)
-      puts "#{changes.change_count} words changed, #{changes.insert_count} inserts, #{changes.delete_count} deletes."
+      puts "#{changes.change_count} words changed, #{changes.insert_count} " \
+      "inserts, #{changes.delete_count} deletes."
     end
 
     def compare_and_print_change_count(low, high)
@@ -54,16 +61,21 @@ module Commands
       print_summary_of_changes(changes)
     end
 
+    def puts_diff_note
+      puts "Note: 'ab' -> 'ac' counts as both an insert and a delete but " \
+      'counts as only one change.'
+    end
+
     def execute
-      puts "Note: 'ab' -> 'ac' counts as both an insert and a delete but counts as only one change."
+      puts_diff_note
       if @all
-        users = modifying_users
         consecutive_revisions.each do |pair|
-          puts "From rev #{pair[0]} to rev #{pair[1]} modified by #{users[pair[0].to_s]}"
-          compare_and_print_change_count(pair[0].to_s, pair[1].to_s)
+          puts "From rev #{pair[0]} to rev #{pair[1]} modified by " \
+          "#{modifying_users[pair[0]]}"
+          compare_and_print_change_count(pair[0], pair[1])
         end
       else
-        compare_and_print_change_count(@low_rev.to_s, @high_rev.to_s)
+        compare_and_print_change_count(@low_rev, @high_rev)
       end
     end
   end
