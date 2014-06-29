@@ -7,7 +7,7 @@ module Commands
   #
   class GetFile < QueryRevision
     def self.command_name
-      'get'
+      'get_txt'
     end
 
     def self.parameters
