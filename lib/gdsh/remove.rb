@@ -15,13 +15,12 @@ module Commands
     end
 
     def execute
-    	drive = @client.discovered_api('drive', 'v2')
+      drive = @client.discovered_api('drive', 'v2')
       result = @client.execute(
         api_method: drive.files.trash,
-        parameters: {fileId: @params[1]})
+        parameters: { fileId: @params[1] })
       if result.status != 200
-        puts result.methods
-        # puts "An error occurred: #{result.data['error']['message']}"
+        puts "An error occurred: #{result.data['error']['message']}"
       else
         puts 'Deleted.'
       end
