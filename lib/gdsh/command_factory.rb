@@ -9,6 +9,8 @@ require_relative 'upload_template'
 require_relative 'get_file'
 require_relative 'revision_diff'
 require_relative 'remove'
+require_relative 'share_read_only'
+require_relative 'share_read_write'
 
 ##
 # Factory pattern to create the appropriate command.
