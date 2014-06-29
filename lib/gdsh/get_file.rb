@@ -25,7 +25,7 @@ module Commands
     end
 
     def puts_downloading_banner(url)
-      puts "Downloading ".colorize(:cyan) + "#{url} ...".colorize(:light_yellow)
+      puts 'Downloading '.colorize(:cyan) + "#{url} ...".colorize(:light_yellow)
     end
 
     def download(url)

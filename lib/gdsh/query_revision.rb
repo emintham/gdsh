@@ -43,27 +43,27 @@ module Commands
     end
 
     def revision_id_label
-      "Revision id: ".colorize(:magenta)
+      'Revision id: '.colorize(:magenta)
     end
 
     def modified_date_label
-      "Modified: ".colorize(:magenta)
+      'Modified: '.colorize(:magenta)
     end
 
     def modifying_user_label
-      "Modifying User: ".colorize(:magenta)
+      'Modifying User: '.colorize(:magenta)
     end
 
     def pdf_link_label
-      "Download pdf: ".colorize(:magenta)
+      'Download pdf: '.colorize(:magenta)
     end
 
     def docx_link_label
-      "Download docx: ".colorize(:magenta)
+      'Download docx: '.colorize(:magenta)
     end
 
     def txt_link_label
-      "Download txt: ".colorize(:magenta)
+      'Download txt: '.colorize(:magenta)
     end
 
     def puts_download_links(revision)

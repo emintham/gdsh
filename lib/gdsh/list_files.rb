@@ -50,15 +50,15 @@ module Commands
     end
 
     def title_label
-      "Title: ".colorize(:light_magenta)
+      'Title: '.colorize(:light_magenta)
     end
 
     def id_label
-      "id: ".colorize(:light_magenta)
+      'id: '.colorize(:light_magenta)
     end
 
     def created_at_label
-      "created at: ".colorize(:light_magenta)
+      'created at: '.colorize(:light_magenta)
     end
 
     def puts_file_info(f)

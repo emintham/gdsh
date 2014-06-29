@@ -49,7 +49,7 @@ class DriveService
   end
 
   def puts_refresh_error
-    puts "Could not refresh token from saved session.".colorize(:red)
+    puts 'Could not refresh token from saved session.'.colorize(:red)
   end
 
   def authorize
@@ -66,7 +66,7 @@ class DriveService
   end
 
   def authorize_from_refresh_token
-    raise StandardError unless File.exist?('.session.yaml')
+    fail StandardError unless File.exist?('.session.yaml')
 
     f = File.open('.session.yaml', 'r')
     session = YAML.load(f.read)
