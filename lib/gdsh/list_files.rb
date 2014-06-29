@@ -22,7 +22,7 @@ module Commands
     end
 
     def filelist
-      puts 'Retrieving list of files accessible...'
+      puts 'Retrieving list of files accessible...'.colorize(:green)
 
       result = []
       page_token = nil
@@ -35,7 +35,7 @@ module Commands
           result.concat(files.items)
           page_token = files.next_page_token
         else
-          puts "An error occurred: #{result.data['error']['message']}"
+          puts "An error occurred: #{result.data['error']['message']}".colorize(:red)
           page_token = nil
         end
 
@@ -52,9 +52,9 @@ module Commands
     def execute
       filelist.each do |f|
         next if f['labels']['trashed']
-        puts "Title: #{f['title']}"
-        puts "id: #{f['id']}"
-        puts "created at: #{f['createdDate']}"
+        puts "Title: ".colorize(:light_magenta) + "#{f['title']}"
+        puts "id: ".colorize(:light_magenta) + "#{f['id']}"
+        puts "created at: ".colorize(:light_magenta) + "#{f['createdDate']}"
         puts ''
       end
     end

@@ -27,12 +27,12 @@ module Commands
     def download(url)
       return unless @client
 
-      puts "Downloading #{url} ..."
+      puts "Downloading ".colorize(:cyan) + "#{url} ...".colorize(:light_yellow)
       result = @client.execute(uri: url)
       if result.status == 200
         result.body
       else
-        puts "An error occurred: #{result.data['error']['message']}"
+        puts "An error occurred: #{result.data['error']['message']}".colorize(:red)
       end
     end
 

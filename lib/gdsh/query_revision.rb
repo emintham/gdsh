@@ -33,8 +33,13 @@ module Commands
       if api_result.status == 200
         api_result.data.items
       else
-        puts "An error occurred: #{result.data['error']['message']}"
+        puts "An error occurred: #{result.data['error']['message']}".colorize(:red)
       end
+    end
+
+    def puts_banner
+      puts 'Revisions'.colorize(:magenta)
+      puts '---------'.colorize(:magenta)
     end
 
     ##
@@ -43,14 +48,14 @@ module Commands
     def execute
       return if revisions.nil?
 
-      puts 'Revisions:'
+      puts_banner
       revisions.each do |r|
-        puts "Revision id: #{r['id']}"
-        puts "Modified: #{r['modifiedDate']}"
-        puts "Modifying User: #{r['lastModifyingUserName']}"
-        puts "Download pdf: #{r['exportLinks'][pdf]}"
-        puts "Download docx: #{r['exportLinks'][docx]}"
-        puts "Download txt: #{r['exportLinks'][txt]}"
+        puts "Revision id: ".colorize(:magenta) + "#{r['id']}"
+        puts "Modified: ".colorize(:magenta) + "#{r['modifiedDate']}"
+        puts "Modifying User: ".colorize(:magenta) + "#{r['lastModifyingUserName']}"
+        puts "Download pdf: ".colorize(:magenta) + "#{r['exportLinks'][pdf]}"
+        puts "Download docx: ".colorize(:magenta) + "#{r['exportLinks'][docx]}"
+        puts "Download txt: ".colorize(:magenta) + "#{r['exportLinks'][txt]}"
         puts ''
       end
     end

@@ -16,14 +16,14 @@ module Gdsh
   class Gdsh < DriveService
     include CommandFactory
 
-    def banner
+    def puts_banner
       puts ''
-      puts 'CLI tool to interface with Google Drive'
-      puts '======================================='
+      puts 'CLI tool to interface with Google Drive'.colorize(:green)
+      puts '======================================='.colorize(:green)
     end
 
-    def hint
-      puts 'Hint: type \'help\'.'
+    def puts_hint
+      puts 'Hint: type \'help\'.'.colorize(:green)
     end
 
     def clear_screen
@@ -31,10 +31,14 @@ module Gdsh
     end
 
     def init_shell
-      banner
+      puts_banner
       authorize
       clear_screen
-      hint
+      puts_hint
+    end
+
+    def prints_prompt
+      print 'gdsh> '.colorize(:light_blue)
     end
 
     ##
@@ -44,7 +48,7 @@ module Gdsh
       init_shell
 
       loop do
-        print '> '
+        prints_prompt
         params = parsed_inputs
         command = next_command(params)
         command.new(@client, params).execute

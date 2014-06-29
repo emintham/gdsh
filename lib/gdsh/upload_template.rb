@@ -44,7 +44,7 @@ module Commands
       filename = 'document.txt'
       return unless @client && File.exist?(filename)
 
-      puts 'Writing template to drive.'
+      puts 'Writing template to drive.'.colorize(:green)
       file = insert_schema('My Document', 'A test document', txt)
       insert_file(filename, file, txt)
     end

@@ -1,3 +1,5 @@
+require 'colorize'
+
 ##
 # Commands
 #
@@ -32,7 +34,7 @@ module Commands
       end
 
       def description
-        command_name + parameters + ': ' + function
+        (command_name + parameters + ":\n  " + function).colorize(:green)
       end
 
       def terminal?

@@ -1,6 +1,7 @@
 require 'google/api_client'
 require 'launchy'
 require 'json'
+require 'colorize'
 
 ##
 # DriveService module implements a service that interfaces with
@@ -58,7 +59,7 @@ class DriveService
     Launchy.open(uri)
 
     # Exchange authorization code for access token
-    print 'Enter authorization code: '
+    print 'Enter authorization code: '.colorize(:light_blue)
     @client.authorization.code = $stdin.gets.chomp
     @client.authorization.fetch_access_token!
   end

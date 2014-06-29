@@ -6,7 +6,7 @@ module Commands
   #
   class Unrecognized < Command
     def execute
-      "Command not recognized, got: #{@params}"
+      "Command not recognized, got: #{@params}".colorize(:red)
     end
   end
 end

@@ -20,9 +20,9 @@ module Commands
         api_method: drive.files.trash,
         parameters: { fileId: @params[1] })
       if result.status != 200
-        puts "An error occurred: #{result.data['error']['message']}"
+        puts "An error occurred: #{result.data['error']['message']}".colorize(:red)
       else
-        puts 'Deleted.'
+        puts 'Deleted.'.colorize(:green)
       end
     end
   end

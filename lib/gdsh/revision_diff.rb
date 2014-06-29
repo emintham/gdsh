@@ -17,7 +17,7 @@ module Commands
     end
 
     def self.function
-      'Compares and summarizes the changes between two revisions. If no' \
+      'Compares and summarizes the changes between two revisions. If no ' \
       'revision numbers are provided, a consolidated summary is returned.'
     end
 
@@ -52,8 +52,9 @@ module Commands
     end
 
     def print_summary_of_changes(changes)
-      puts "#{changes.change_count} words changed, #{changes.insert_count} " \
-      "inserts, #{changes.delete_count} deletes."
+      puts "#{changes.change_count} words changed, ".colorize(:green) +
+      "#{changes.insert_count} inserts, ".colorize(:green) +
+      "#{changes.delete_count} deletes.".colorize(:green)
     end
 
     def compare_and_print_change_count(low, high)
@@ -62,16 +63,16 @@ module Commands
     end
 
     def puts_diff_note
-      puts "Note: 'ab' -> 'ac' counts as both an insert and a delete but " \
-      'counts as only one change.'
+      puts "Note: 'ab' -> 'ac' counts as both an insert and".colorize(:green) +
+      ' a delete but counts as only one change.'.colorize(:green)
     end
 
     def execute
       puts_diff_note
       if @all
         consecutive_revisions.each do |pair|
-          puts "From rev #{pair[0]} to rev #{pair[1]} modified by " \
-          "#{modifying_users[pair[0]]}"
+          puts "From rev #{pair[0]} to rev #{pair[1]} ".colorize(:green) +
+          "modified by #{modifying_users[pair[0]]}".colorize(:green)
           compare_and_print_change_count(pair[0], pair[1])
         end
       else

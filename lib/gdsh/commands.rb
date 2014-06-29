@@ -1,5 +1,6 @@
 require 'google/api_client'
 require 'json'
+require 'colorize'
 
 require_relative 'command_mixin'
 
@@ -24,9 +25,13 @@ module Commands
     constants.select { |c| const_get(c).is_a? Class }
   end
 
+  def puts_usage_header
+    puts 'Commands'.colorize(:green)
+    puts '--------'.colorize(:green)
+  end
+
   def usage
-    puts 'Commands'
-    puts '--------'
+    puts_usage_header
     commands.each do |c|
       klass = const_get(c)
       puts klass.description unless klass.command_name.empty?
