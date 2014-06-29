@@ -67,12 +67,16 @@ module Commands
       ' a delete but counts as only one change.'.colorize(:green)
     end
 
+    def diff_author(pair)
+      "From rev #{pair[0]} to rev #{pair[1]} ".colorize(:green) +
+      "modified by #{modifying_users[pair[0]]}".colorize(:green)
+    end
+
     def execute
       puts_diff_note
       if @all
         consecutive_revisions.each do |pair|
-          puts "From rev #{pair[0]} to rev #{pair[1]} ".colorize(:green) +
-          "modified by #{modifying_users[pair[0]]}".colorize(:green)
+          puts diff_author(pair)
           compare_and_print_change_count(pair[0], pair[1])
         end
       else

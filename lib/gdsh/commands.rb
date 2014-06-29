@@ -3,6 +3,7 @@ require 'json'
 require 'colorize'
 
 require_relative 'command_mixin'
+require_relative 'error'
 
 ##
 # Commands
@@ -13,6 +14,7 @@ module Commands
   #
   class Command
     include CommandMixin
+    include DriveError
 
     def initialize(client, params)
       @client, @params = client, params

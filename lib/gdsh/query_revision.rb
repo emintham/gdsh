@@ -33,7 +33,7 @@ module Commands
       if api_result.status == 200
         api_result.data.items
       else
-        puts "An error occurred: #{result.data['error']['message']}".colorize(:red)
+        puts drive_error_string
       end
     end
 
@@ -42,21 +42,46 @@ module Commands
       puts '---------'.colorize(:magenta)
     end
 
-    ##
-    # Print consolidated revisions of a file
-    #
+    def revision_id_label
+      "Revision id: ".colorize(:magenta)
+    end
+
+    def modified_date_label
+      "Modified: ".colorize(:magenta)
+    end
+
+    def modifying_user_label
+      "Modifying User: ".colorize(:magenta)
+    end
+
+    def pdf_link_label
+      "Download pdf: ".colorize(:magenta)
+    end
+
+    def docx_link_label
+      "Download docx: ".colorize(:magenta)
+    end
+
+    def txt_link_label
+      "Download txt: ".colorize(:magenta)
+    end
+
+    def puts_revision_info(revision)
+      puts revision_id_label + "#{revision['id']}"
+      puts modified_date_label + "#{revision['modifiedDate']}"
+      puts modifying_user_label + "#{revision['lastModifyingUserName']}"
+      puts pdf_link_label + "#{revision['exportLinks'][pdf]}"
+      puts docx_link_label + "#{revision['exportLinks'][docx]}"
+      puts txt_link_label + "#{revision['exportLinks'][txt]}"
+      puts ''
+    end
+
     def execute
       return if revisions.nil?
 
       puts_banner
       revisions.each do |r|
-        puts "Revision id: ".colorize(:magenta) + "#{r['id']}"
-        puts "Modified: ".colorize(:magenta) + "#{r['modifiedDate']}"
-        puts "Modifying User: ".colorize(:magenta) + "#{r['lastModifyingUserName']}"
-        puts "Download pdf: ".colorize(:magenta) + "#{r['exportLinks'][pdf]}"
-        puts "Download docx: ".colorize(:magenta) + "#{r['exportLinks'][docx]}"
-        puts "Download txt: ".colorize(:magenta) + "#{r['exportLinks'][txt]}"
-        puts ''
+        puts_revision_info(r)
       end
     end
 

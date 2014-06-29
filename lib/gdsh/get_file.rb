@@ -24,15 +24,19 @@ module Commands
       @revision = (params.length == 3) ? params[2] : nil
     end
 
+    def puts_downloading_banner(url)
+      puts "Downloading ".colorize(:cyan) + "#{url} ...".colorize(:light_yellow)
+    end
+
     def download(url)
       return unless @client
 
-      puts "Downloading ".colorize(:cyan) + "#{url} ...".colorize(:light_yellow)
+      puts_downloading_banner(url)
       result = @client.execute(uri: url)
       if result.status == 200
         result.body
       else
-        puts "An error occurred: #{result.data['error']['message']}".colorize(:red)
+        puts drive_error_string
       end
     end
 

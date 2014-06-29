@@ -21,8 +21,12 @@ module Commands
         parameters: parameters)
     end
 
-    def filelist
+    def puts_banner
       puts 'Retrieving list of files accessible...'.colorize(:green)
+    end
+
+    def filelist
+      puts_banner
 
       result = []
       page_token = nil
@@ -35,7 +39,7 @@ module Commands
           result.concat(files.items)
           page_token = files.next_page_token
         else
-          puts "An error occurred: #{result.data['error']['message']}".colorize(:red)
+          drive_error_string
           page_token = nil
         end
 
@@ -45,17 +49,29 @@ module Commands
       result
     end
 
-    ##
-    # Prints out a list of files and their properties (title, id,
-    # date uploaded).
-    #
+    def title_label
+      "Title: ".colorize(:light_magenta)
+    end
+
+    def id_label
+      "id: ".colorize(:light_magenta)
+    end
+
+    def created_at_label
+      "created at: ".colorize(:light_magenta)
+    end
+
+    def puts_file_info(f)
+      puts title_label + "#{f['title']}"
+      puts id_label + "#{f['id']}"
+      puts created_at_label + "#{f['createdDate']}"
+      puts ''
+    end
+
     def execute
       filelist.each do |f|
         next if f['labels']['trashed']
-        puts "Title: ".colorize(:light_magenta) + "#{f['title']}"
-        puts "id: ".colorize(:light_magenta) + "#{f['id']}"
-        puts "created at: ".colorize(:light_magenta) + "#{f['createdDate']}"
-        puts ''
+        puts_file_info(f)
       end
     end
   end
