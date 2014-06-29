@@ -20,7 +20,7 @@ module CommandFactory
     user_input = $stdin.gets || ''
 
     # if command has parameters, split it up
-    user_input.chomp.split(/[\(,\),\,]/)
+    user_input.chomp.split(/[\(,\),\,,\ ]/)
   end
 
   def next_command(params)
