@@ -34,7 +34,8 @@ module Commands
       end
 
       def description
-        (command_name + parameters + ":\n  " + function).colorize(:green)
+        (command_name + parameters + ":\n  ").colorize(:green) + 
+        function.colorize(:yellow)
       end
 
       def terminal?
