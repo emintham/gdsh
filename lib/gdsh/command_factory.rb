@@ -8,6 +8,7 @@ require_relative 'unrecognized'
 require_relative 'upload_template'
 require_relative 'get_file'
 require_relative 'revision_diff'
+require_relative 'remove'
 
 ##
 # Factory pattern to create the appropriate command.
