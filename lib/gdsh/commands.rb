@@ -28,7 +28,8 @@ module Commands
     puts 'Commands'
     puts '--------'
     commands.each do |c|
-      puts const_get(c).description unless const_get(c).command_name.empty?
+      klass = const_get(c)
+      puts klass.description unless klass.command_name.empty?
     end
   end
 
@@ -36,7 +37,8 @@ module Commands
     return Quit if input.nil?
 
     commands.each do |c|
-      return const_get(c) if input == const_get(c).command_name
+      klass = const_get(c)
+      return klass if input == klass.command_name
     end
 
     Unrecognized
