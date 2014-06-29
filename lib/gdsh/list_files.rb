@@ -51,6 +51,7 @@ module Commands
     #
     def execute
       filelist.each do |f|
+        next if f['labels']['trashed']
         puts "Title: #{f['title']}"
         puts "id: #{f['id']}"
         puts "created at: #{f['createdDate']}"
