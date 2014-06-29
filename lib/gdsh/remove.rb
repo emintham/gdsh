@@ -14,11 +14,16 @@ module Commands
       'Removes the file.'
     end
 
+    def initialize(client, params)
+      super(client, params)
+      @file_id = @params[1]
+    end
+
     def execute
       drive = @client.discovered_api('drive', 'v2')
       result = @client.execute(
         api_method: drive.files.trash,
-        parameters: { fileId: @params[1] })
+        parameters: { fileId: @file_id })
       if result.status != 200
         puts drive_error_string
       else
