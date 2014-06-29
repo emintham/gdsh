@@ -2,6 +2,7 @@ require 'google/api_client'
 require 'launchy'
 require 'json'
 require 'colorize'
+require 'yaml'
 
 ##
 # DriveService module implements a service that interfaces with
@@ -47,21 +48,40 @@ class DriveService
     @client.authorization.redirect_uri = @redirect_uri
   end
 
-  ##
-  # Authorizes a user. A browser window will pop-out and a token
-  # will be granted. The user should copy-paste the token into the
-  # command line to authorize access.
-  #
+  def puts_refresh_error
+    puts "Could not refresh token from saved session.".colorize(:red)
+  end
+
   def authorize
     init_client
 
+    begin
+      authorize_from_refresh_token
+    rescue
+      puts_refresh_error
+      authorize_from_authorization_code
+    ensure
+      @client.authorization.fetch_access_token!
+    end
+  end
+
+  def authorize_from_refresh_token
+    raise StandardError unless File.exist?('.session.yaml')
+
+    f = File.open('.session.yaml', 'r')
+    session = YAML.load(f.read)
+    @client.authorization.grant_type = 'refresh_token'
+    @client.authorization.refresh_token = session.authorization.refresh_token
+    f.close
+  end
+
+  def authorize_from_authorization_code
     uri = @client.authorization.authorization_uri
     Launchy.open(uri)
 
     # Exchange authorization code for access token
     print 'Enter authorization code: '.colorize(:light_blue)
     @client.authorization.code = $stdin.gets.chomp
-    @client.authorization.fetch_access_token!
   end
 
   ##
@@ -82,5 +102,12 @@ class DriveService
       print 'Please enter your client secret: '
       @client_secret = $stdin.gets.chomp
     end
+  end
+
+  def write_session_info_to_file
+    return if @client.nil?
+    f = File.new('.session.yaml', 'w')
+    f.write(@client.to_yaml)
+    f.close
   end
 end

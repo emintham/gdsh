@@ -54,6 +54,8 @@ module Gdsh
         command.new(@client, params).execute
         break if command.terminal?
       end
+
+      write_session_info_to_file
     end
   end
 end

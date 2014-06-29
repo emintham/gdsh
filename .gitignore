@@ -1,4 +1,5 @@
 auth.json
+.session.yaml
 
 # Bundle generated
 *.gem
