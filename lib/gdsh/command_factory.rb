@@ -1,4 +1,13 @@
 require_relative 'commands'
+require_relative 'clear'
+require_relative 'help'
+require_relative 'list_files'
+require_relative 'query_revision'
+require_relative 'quit'
+require_relative 'unrecognized'
+require_relative 'upload_template'
+require_relative 'get_file'
+require_relative 'revision_diff'
 
 ##
 # Factory pattern to create the appropriate command.
